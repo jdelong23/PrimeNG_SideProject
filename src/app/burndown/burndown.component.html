@@ -1,0 +1,14 @@
+
+
+
+<!-- <p-chart type="line" [data]="data"></p-chart> -->
+<p-growl [value]="msgs"></p-growl>
+
+<div style="width:700px; margin:150px; ">
+	<p-chart #chart type="line" [data]="data" [options]="options"></p-chart>
+</div>
+
+
+<button class="btn btn-primary" type="button" pButton (click)="update($event)">update chart</button>
+
+

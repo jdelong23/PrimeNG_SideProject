@@ -21,11 +21,12 @@ export class CalendarComponent implements OnInit {
         this.fc.weekends = false;
 
         this.fc.defaultView = "month";
-
+        this.fc.timezone = "local";
+        
         this.events = [
             {
                 "title": "Project 3 showcase",
-                "start": "2018-02-19"
+                "start": 1518573600000
             },
             {
                 "title": "Docker",
@@ -55,13 +56,12 @@ export class CalendarComponent implements OnInit {
             }
         ];
 
-
         this.fc.events = this.events;
-        console.log(this.fc.events);
-        this.fc.events.map((obj: any) => {
-            obj.color = "orange";
-            // obj.title = "testin";
-        });
+        // console.log(this.fc.events);
+        // this.fc.events.map((obj: any) => {
+        //     obj.color = "orange";
+        //     // obj.title = "testin";
+        // });
 
         //this.fc.defaultDate = "2017-2-1"
 
@@ -73,7 +73,20 @@ export class CalendarComponent implements OnInit {
         fc.next();
     }
     handleEventClick($event) {
-        console.log($event);
+        console.log($event.calEvent);
+        $event.calEvent.color = "orange";
+        //e.jsEvent = Browser click event
+        console.log($event.calEvent);
+        this.fc.updateEvent($event.calEvent);
+    }
+    handleEventDrop(calendar)
+    {
+        calendar.event.color = "orange";
+        console.log(calendar.delta.asDays());
+        console.log(calendar.event.start.toString())
+        console.log(calendar.event.start.format());
+        //$event.calEvent.color = "orange";
+        this.fc.updateEvent(calendar.event);
     }
 }
 

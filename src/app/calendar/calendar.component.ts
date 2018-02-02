@@ -1,63 +1,55 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ScheduleModule, Schedule, } from 'primeng/schedule';
+import { CalendarService } from '../services/calendar.service';
+import { error } from 'selenium-webdriver';
 @Component({
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
-    @ViewChild("fc") fc: Schedule;
-    events: any[];
-    constructor() { }
+    @ViewChild('fc') fc: Schedule;
+    events: any[] = [];
+
+    subTopics: any;
+
+    constructor(private calendarService: CalendarService) { }
 
     ngOnInit() {
-        console.log(this.fc);
-        //this.fc.aspectRatio = 2;
+
+        this.calendarService.getCount().subscribe(
+            service => {
+                    this.subTopics = JSON.parse(service._body);
+                    for (let i = 0; i < this.subTopics.length; i++) {
+                        this.events.push ( {
+                            'title': this.subTopics[i].subtopicName.name,
+                            'start': new Date(this.subTopics[i].subtopicDate).toDateString(),
+                            'subtopicId': this.subTopics[i].subtopicId
+                        });
+                    }
+
+                    // this.events.push ( {
+                    //     'title': this.subTopics[1].subtopicName.name,
+                    //     'start': this.subTopics[1].subtopicDate
+                    // });
+
+                    this.fc.events = this.events;
+                }
+        );
+        // this.fc.aspectRatio = 2;
         this.fc.header = {
             left: 'prevYear,nextYear',
             center: 'title',
             right: 'today prev,next'
         }
-        this.fc.weekends = false;
+        // this.fc.weekends = false;
 
         this.fc.defaultView = "month";
 
-        this.events = [
-            {
-                "title": "Project 3 showcase",
-                "start": "2018-02-19"
-            },
-            {
-                "title": "Docker",
-                "start": "2018-02-08",
-                "end": "2018-02-12"
-            },
-            {
-                "title": "Microservices",
-                "start": "2018-02-05",
-                "end": "2018-02-08"
-            },
-            {
-                "title": "QC",
-                "start": "2018-02-05T14:00:00",
-                "end": "2018-02-05T15:00:00"
-            },
 
-            {
-                "title": "QC",
-                "start": "2018-02-12T14:00:00",
-                "end": "2018-02-12T15:00:00"
-            },
-            {
-                "title": "Angular Review",
-                "start": "2018-01-29",
-                "end": "2018-01-29"
-            }
-        ];
 
 
         this.fc.events = this.events;
-        console.log(this.fc.events);
         this.fc.events.map((obj: any) => {
             obj.color = "orange";
             // obj.title = "testin";
@@ -74,6 +66,14 @@ export class CalendarComponent implements OnInit {
     }
     handleEventClick($event) {
         console.log($event);
+    }
+    handleEventDrop(event) {
+        console.log(event);
+        const date = new Date(event.start._i[0], event.start._i[1], event.start._i[2], event.start._i[3]);
+        const miliDate = date.getTime();
+        console.log(date);
+        console.log(miliDate);
+        this.calendarService.updateDate(22506, event.subtopicId, miliDate).subscribe();
     }
 }
 

@@ -12,6 +12,8 @@ import { BurndownComponent } from './burndown/burndown.component';
 import {ChartModule, GrowlModule} from 'primeng/primeng';
 import {ScheduleModule} from 'primeng/schedule';
 import { CalendarComponent } from './calendar/calendar.component'
+import { CalendarService } from './services/calendar.service';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
     declarations: [
@@ -30,9 +32,10 @@ import { CalendarComponent } from './calendar/calendar.component'
         ButtonModule,
         ChartModule,
         GrowlModule,
-        ScheduleModule
+        ScheduleModule,
+        HttpModule
     ],
-    providers: [],
+    providers: [CalendarService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

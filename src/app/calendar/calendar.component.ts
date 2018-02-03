@@ -22,8 +22,9 @@ export class CalendarComponent implements OnInit {
 
     ngOnInit() {
 
-        this.calendarService.getCount().subscribe(
+        this.calendarService.getPaginatedSubtopics().subscribe(
             service => {
+                    console.log(JSON.stringify(service));
                     this.subTopics = JSON.parse(service._body);
                     for (let i = 0; i < this.subTopics.length; i++) {
                         this.events.push ( {

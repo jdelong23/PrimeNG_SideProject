@@ -1,5 +1,6 @@
 
-
-<p-schedule #fc [events]="events" [editable]="true" (onEventClick)="handleEventClick($event)"></p-schedule>
+<div style="width:800px;height:800px;margin:0 auto 0;">
+<p-schedule #fc [events]="events" [editable]="true" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)"></p-schedule>
 
 <button type="button" pButton (click)="back(fc)"></button>
+</div>

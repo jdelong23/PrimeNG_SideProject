@@ -18,6 +18,5 @@ export class CalendarService {
 
   public updateStatus(subtopicId: number, status: number) {
    // let getEventsUrl = 'http://'
-    
   }
 }

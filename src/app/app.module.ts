@@ -13,6 +13,8 @@ import {ChartModule, GrowlModule} from 'primeng/primeng';
 import {ScheduleModule} from 'primeng/schedule';
 import { CalendarComponent } from './calendar/calendar.component'
 import { CalendarStatusService } from './services/calendar-status.service';
+import { CalendarService } from './services/calendar.service';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
     declarations: [
@@ -31,9 +33,13 @@ import { CalendarStatusService } from './services/calendar-status.service';
         ButtonModule,
         ChartModule,
         GrowlModule,
-        ScheduleModule
+        ScheduleModule,
+        HttpModule
     ],
-    providers: [CalendarStatusService],
+    providers: [
+        CalendarService, 
+        CalendarStatusService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

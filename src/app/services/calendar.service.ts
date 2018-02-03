@@ -11,14 +11,14 @@ const httpOptions = {
 @Injectable()
 export class CalendarService {
 
-  url = `http://localhost:9001/api/v1/Calendar/SubtopicsPagination?batchId=22506&pageSize=34&pageNumber=0`;
-  updateDateURL = `http://localhost:9001/api/v1/Calendar/DateUpdate`
+  url = `http://localhost:9001/api/v1/calendar/subtopicspagination?batchId=22506&pageSize=34&pageNumber=0`;
+  updateDateURL = `http://localhost:9001/api/v1/calendar/dateupdate`;
 
 
   constructor(private httpPost: HttpClient, private httpGet: Http) { }
 
 
-  getCount(): Observable<any> {
+  getPaginatedSubtopics(): Observable<any> {
     return this.httpGet
         .get(this.url)
         .map( (response: Response) => {

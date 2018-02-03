@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ScheduleModule, Schedule, } from 'primeng/schedule';
+import { Subtopic } from '../models/subtopic.model';
+import { CalendarStatusService } from '../services/calendar-status.service';
 @Component({
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
@@ -7,8 +9,9 @@ import { ScheduleModule, Schedule, } from 'primeng/schedule';
 })
 export class CalendarComponent implements OnInit {
     @ViewChild("fc") fc: Schedule;
-    events: any[];
-    constructor() { }
+    events: Subtopic[];
+    subtopic: Subtopic;
+    constructor(private statusService: CalendarStatusService) { }
 
     ngOnInit() {
         console.log(this.fc);
@@ -22,49 +25,12 @@ export class CalendarComponent implements OnInit {
 
         this.fc.defaultView = "month";
 
-        this.events = [
-            {
-                "title": "Project 3 showcase",
-                "start": "2018-02-19"
-            },
-            {
-                "title": "Docker",
-                "start": "2018-02-08",
-                "end": "2018-02-12"
-            },
-            {
-                "title": "Microservices",
-                "start": "2018-02-05",
-                "end": "2018-02-08"
-            },
-            {
-                "title": "QC",
-                "start": "2018-02-05T14:00:00",
-                "end": "2018-02-05T15:00:00"
-            },
-
-            {
-                "title": "QC",
-                "start": "2018-02-12T14:00:00",
-                "end": "2018-02-12T15:00:00"
-            },
-            {
-                "title": "Angular Review",
-                "start": "2018-01-29",
-                "end": "2018-01-29"
-            }
-        ];
-
+        this.subtopic = new Subtopic("My Custom Event", "2018-02-19", 1);
+        this.events = new Array<any>();
+        this.events.push(this.subtopic);
 
         this.fc.events = this.events;
         console.log(this.fc.events);
-        this.fc.events.map((obj: any) => {
-            obj.color = "orange";
-            // obj.title = "testin";
-        });
-
-        //this.fc.defaultDate = "2017-2-1"
-
 
     }
 
@@ -72,8 +38,18 @@ export class CalendarComponent implements OnInit {
         //fc.prev();
         fc.next();
     }
+
     handleEventClick($event) {
-        console.log($event);
+        var clickedTopic = $event.calEvent;
+        console.log(clickedTopic.title);
+        clickedTopic.status++;
+        if(clickedTopic.status > 4) {
+            clickedTopic.status = 1;
+        }
+        let color = this.statusService.getStatusColor(clickedTopic.status);
+        clickedTopic.color = color;
+        this.fc.updateEvent(clickedTopic);
+        
     }
 }
 

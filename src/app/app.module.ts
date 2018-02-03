@@ -12,6 +12,7 @@ import { BurndownComponent } from './burndown/burndown.component';
 import {ChartModule, GrowlModule} from 'primeng/primeng';
 import {ScheduleModule} from 'primeng/schedule';
 import { CalendarComponent } from './calendar/calendar.component'
+import { CalendarStatusService } from './services/calendar-status.service';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,7 @@ import { CalendarComponent } from './calendar/calendar.component'
         GrowlModule,
         ScheduleModule
     ],
-    providers: [],
+    providers: [CalendarStatusService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

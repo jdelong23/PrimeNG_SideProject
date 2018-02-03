@@ -5,6 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import 'rxjs/Rx';
 // Models
 import { Router } from '@angular/router';
+import { Http } from '@angular/http';
 
 //observe required to see all headers and body
 const httpOptions = {
@@ -14,9 +15,23 @@ const httpOptions = {
 @Injectable()
 export class CalendarService {
 
-  constructor(private http: HttpClient) { }
+  url = `http://localhost:9001/api/v1/Calendar/SubtopicsPagination?batchId=22506&pageSize=34&pageNumber=0`;
+  updateDateURL = `http://localhost:9001/api/v1/Calendar/DateUpdate`
 
-  public updateStatus(subtopicId: number, status: number) {
-   // let getEventsUrl = 'http://'
+
+  constructor(private httpPost: HttpClient, private httpGet: Http) { }
+
+
+  getCount(): Observable<any> {
+    return this.httpGet
+        .get(this.url)
+        .map( (response: Response) => {
+          return <any> response;
+        });
+  }
+
+  updateDate(batchId, subtopicId, date): Observable<any> {
+    const body = `batchId=${batchId}&subtopicId=${subtopicId}&date=${date}`;
+    return this.httpPost.post<any>(this.updateDateURL, body, httpOptions);
   }
 }

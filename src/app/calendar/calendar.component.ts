@@ -18,7 +18,7 @@ export class CalendarComponent implements OnInit {
     subTopics: any;
     subtopic: Subtopic;
 
-    constructor(private calendarService: CalendarService) { }
+    constructor(private calendarService: CalendarService, private statusService: CalendarStatusService) { }
 
     ngOnInit() {
 
@@ -77,6 +77,7 @@ export class CalendarComponent implements OnInit {
         this.fc.updateEvent(clickedTopic);
         
     }
+    
     handleEventDrop(calander) {
         console.log(calander.event.start.format());
         const date = new Date(calander.event.start.format());

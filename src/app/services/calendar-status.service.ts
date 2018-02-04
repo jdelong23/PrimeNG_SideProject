@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
 enum Status {
-  PENDING = 1,
-  COMPLETED,
-  CANCELED,
-  MISSED
+  PENDING = "Pending",
+  COMPLETED = "Completed",
+  CANCELED = "Canceled",
+  MISSED = "Missed"
 }
 
 @Injectable()
@@ -12,18 +12,33 @@ export class CalendarStatusService {
 
   constructor() { }
 
-  public getStatusColor(status: number): string {
+  public getStatusColor(status: string): string {
     switch (status) {
       case (Status.PENDING):
-        return 'blue';
+        return '#2a2f60';
       case (Status.COMPLETED):
         return 'green';
       case (Status.CANCELED):
-        return 'red';
+        return '#912e2e';
       case (Status.MISSED):
-        return 'yellow';
+        return '#c48013';
       default:
-        return 'blue';
+        return '#2a2f60';
+    }
+  }
+
+  public getNextStatus(status: string): string {
+    switch (status) {
+      case (Status.PENDING):
+        return Status.COMPLETED;
+      case (Status.COMPLETED):
+        return Status.CANCELED;
+      case (Status.CANCELED):
+        return Status.MISSED;
+      case (Status.MISSED):
+        return Status.PENDING;
+      default:
+        return Status.COMPLETED;
     }
   }
 }

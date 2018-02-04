@@ -52,13 +52,12 @@ export class CalendarComponent implements OnInit {
 
     handleEventClick($event) {
         var clickedTopic = $event.calEvent;
-        console.log(clickedTopic.title);
-        clickedTopic.status++;
-        if (clickedTopic.status > 4) {
-            clickedTopic.status = 1;
-        }
-        let color = this.statusService.getStatusColor(clickedTopic.status);
-        clickedTopic.color = color;
+        clickedTopic.status = this.statusService.getNextStatus(clickedTopic.status);
+        clickedTopic.color = this.statusService.getStatusColor(clickedTopic.status);
+        
+        let subtopic = this._mapSubtopic(clickedTopic);
+        console.log(subtopic);
+        this.calendarService.updateStatus(22506, subtopic).subscribe();
         this.fc.updateEvent(clickedTopic);
     }
 
@@ -72,6 +71,12 @@ export class CalendarComponent implements OnInit {
         console.log(calendar.event.subtopicId);
 
         this.calendarService.updateDate(22506, calendar.event.subtopicId, milliDate).subscribe();
+    }
+
+    _mapSubtopic(subtopicEvent): Subtopic {
+        let subtopic = new Subtopic();
+        subtopic = subtopicEvent;
+        return subtopic;
     }
 }
 

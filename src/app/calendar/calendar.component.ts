@@ -37,12 +37,19 @@ export class CalendarComponent implements OnInit {
         );
 
         this.fc.header = {
-            left: 'prevYear,nextYear',
+            left: 'agendaDay,basicWeek,month listMonth',
             center: 'title',
             right: 'today prev,next'
         }
 
-        this.fc.defaultView = "month";
+        //this.fc.defaultView = "month";
+        this.fc.navLinks = true;
+        //this.fc.weekNumbers = true;
+        //this.fc.hiddenDays = [2,4];
+        //this.fc.weekends = false;
+        this.fc.eventLimit = 2;
+        this.fc.nowIndicator = true;
+        this.fc.eventOverlap = false;
     }
 
     back(fc) {

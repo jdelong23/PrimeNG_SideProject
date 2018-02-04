@@ -5,7 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import 'rxjs/Rx';
 // Models
 import { Router } from '@angular/router';
-import { Http } from '@angular/http';
+import { Http , Response} from '@angular/http';
 
 //observe required to see all headers and body
 const httpOptions = {

@@ -24,7 +24,7 @@ export class CalendarComponent implements OnInit {
 
         this.calendarService.getPaginatedSubtopics().subscribe(
             service => {
-                    console.log(JSON.stringify(service));
+                    //console.log(JSON.stringify(service));
                     this.subTopics = JSON.parse(service._body);
                     for (let i = 0; i < this.subTopics.length; i++) {
                         this.events.push ( {
@@ -52,9 +52,9 @@ export class CalendarComponent implements OnInit {
 
         this.fc.defaultView = "month";
 
-        this.subtopic = new Subtopic("My Custom Event", "2018-02-19", 1);
-        this.events = new Array<any>();
-        this.events.push(this.subtopic);
+         this.subtopic = new Subtopic("My Custom Event", "2018-02-19", 1);
+         //this.events = new Array<any>();
+         this.events.push(this.subtopic);
 
         this.fc.events = this.events;
         console.log(this.fc.events);

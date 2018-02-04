@@ -49,7 +49,7 @@ export class CalendarComponent implements OnInit {
         //this.fc.weekends = false;
         this.fc.eventLimit = 2;
         this.fc.nowIndicator = true;
-        this.fc.eventOverlap = false;
+        //this.fc.eventOverlap = false;
     }
 
     back(fc) {

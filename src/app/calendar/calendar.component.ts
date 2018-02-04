@@ -52,9 +52,9 @@ export class CalendarComponent implements OnInit {
 
         this.fc.defaultView = "month";
 
-         this.subtopic = new Subtopic("My Custom Event", "2018-02-19", 1);
+         //this.subtopic = new Subtopic("My Custom Event", "2018-02-19", 1);
          //this.events = new Array<any>();
-         this.events.push(this.subtopic);
+         //this.events.push(this.subtopic);
 
         this.fc.events = this.events;
         console.log(this.fc.events);

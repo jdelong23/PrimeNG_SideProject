@@ -61,9 +61,13 @@ export class CalendarComponent implements OnInit {
     }
 
     handleEventDrop(calendar) {
-        console.log(calendar.event.start.format());
+        //console.log(calendar.event.start.format());
         const date = new Date(calendar.event.start.format());
         const milliDate = date.getTime();
+
+       
+        console.log(milliDate);
+        console.log(calendar.event.subtopicId);
 
         this.calendarService.updateDate(22506, calendar.event.subtopicId, milliDate).subscribe();
     }

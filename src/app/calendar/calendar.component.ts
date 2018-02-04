@@ -24,41 +24,23 @@ export class CalendarComponent implements OnInit {
 
         this.calendarService.getPaginatedSubtopics().subscribe(
             service => {
-                    console.log(JSON.stringify(service));
-                    this.subTopics = JSON.parse(service._body);
-                    for (let i = 0; i < this.subTopics.length; i++) {
-                        this.events.push ( {
-                            'title': this.subTopics[i].subtopicName.name,
-                            'start': new Date(this.subTopics[i].subtopicDate).toDateString(),
-                            'subtopicId': this.subTopics[i].subtopicId
-                        });
-                    }
+                this.subTopics = service;
 
-                    // this.events.push ( {
-                    //     'title': this.subTopics[1].subtopicName.name,
-                    //     'start': this.subTopics[1].subtopicDate
-                    // });
-
-                    this.fc.events = this.events;
+                for (let subtopic of this.subTopics) {
+                    console.log(subtopic);
+                    this.events.push(subtopic);
                 }
+                this.fc.events = this.events;
+            }
         );
-        // this.fc.aspectRatio = 2;
+
         this.fc.header = {
             left: 'prevYear,nextYear',
             center: 'title',
             right: 'today prev,next'
         }
-        // this.fc.weekends = false;
 
         this.fc.defaultView = "month";
-
-        this.subtopic = new Subtopic("My Custom Event", "2018-02-19", 1);
-        this.events = new Array<any>();
-        this.events.push(this.subtopic);
-
-        this.fc.events = this.events;
-        console.log(this.fc.events);
-
     }
 
     back(fc) {
@@ -70,21 +52,20 @@ export class CalendarComponent implements OnInit {
         var clickedTopic = $event.calEvent;
         console.log(clickedTopic.title);
         clickedTopic.status++;
-        if(clickedTopic.status > 4) {
+        if (clickedTopic.status > 4) {
             clickedTopic.status = 1;
         }
         let color = this.statusService.getStatusColor(clickedTopic.status);
         clickedTopic.color = color;
         this.fc.updateEvent(clickedTopic);
-        
     }
-    
-    handleEventDrop(calander) {
-        console.log(calander.event.start.format());
-        const date = new Date(calander.event.start.format());
-        const miliDate = date.getTime();
 
-        this.calendarService.updateDate(22506, calander.event.subtopicId, miliDate).subscribe();
+    handleEventDrop(calendar) {
+        console.log(calendar.event.start.format());
+        const date = new Date(calendar.event.start.format());
+        const milliDate = date.getTime();
+
+        this.calendarService.updateDate(22506, calendar.event.subtopicId, milliDate).subscribe();
     }
 }
 

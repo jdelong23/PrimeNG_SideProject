@@ -5,11 +5,12 @@ import { HttpParams } from '@angular/common/http';
 import 'rxjs/Rx';
 // Models
 import { Router } from '@angular/router';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
+import { Subtopic } from '../models/subtopic.model';
 
 //observe required to see all headers and body
 const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
@@ -24,14 +25,31 @@ export class CalendarService {
 
   getPaginatedSubtopics(): Observable<any> {
     return this.httpGet
-        .get(this.url)
-        .map( (response: Response) => {
-          return <any> response;
-        });
+      .get(this.url)
+      .map((response: Response) => {
+        let subtopicArray = new Array<Subtopic>();
+        for (let subtopicJson of response.json()) {
+          subtopicArray.push(this._mapSubtopic(subtopicJson));
+        }
+
+        return <any>subtopicArray;
+      });
   }
 
   updateDate(batchId, subtopicId, date): Observable<any> {
     const body = `batchId=${batchId}&subtopicId=${subtopicId}&date=${date}`;
     return this.httpPost.post<any>(this.updateDateURL, body, httpOptions);
+  }
+
+  /* accepts a single subtopic entity in json format to map into a
+     Subtopic object */
+  _mapSubtopic(subtopicJson: any): Subtopic {
+    let subtopic = new Subtopic();
+    subtopic.subtopicId = subtopicJson.subtopicId;
+    subtopic.title = subtopicJson.subtopicName.name;
+    subtopic.start = subtopicJson.subtopicDate;
+    subtopic.status = subtopicJson.status.id;
+
+    return subtopic;
   }
 }

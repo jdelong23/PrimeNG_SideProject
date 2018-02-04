@@ -12,6 +12,7 @@ import { BurndownComponent } from './burndown/burndown.component';
 import {ChartModule, GrowlModule} from 'primeng/primeng';
 import {ScheduleModule} from 'primeng/schedule';
 import { CalendarComponent } from './calendar/calendar.component'
+import { CalendarStatusService } from './services/calendar-status.service';
 import { CalendarService } from './services/calendar.service';
 import { HttpModule } from '@angular/http';
 
@@ -35,7 +36,10 @@ import { HttpModule } from '@angular/http';
         ScheduleModule,
         HttpModule
     ],
-    providers: [CalendarService],
+    providers: [
+        CalendarService, 
+        CalendarStatusService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

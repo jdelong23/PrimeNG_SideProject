@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { HttpParams } from '@angular/common/http';
+import 'rxjs/Rx';
+// Models
+import { Router } from '@angular/router';
+import { Http } from '@angular/http';
 
+//observe required to see all headers and body
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
@@ -30,6 +34,4 @@ export class CalendarService {
     const body = `batchId=${batchId}&subtopicId=${subtopicId}&date=${date}`;
     return this.httpPost.post<any>(this.updateDateURL, body, httpOptions);
   }
-
-
 }

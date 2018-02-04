@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ScheduleModule, Schedule, } from 'primeng/schedule';
+
+import { Subtopic } from '../models/subtopic.model';
+import { CalendarStatusService } from '../services/calendar-status.service';
 import { CalendarService } from '../services/calendar.service';
 import { error } from 'selenium-webdriver';
+
 @Component({
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
@@ -12,8 +16,9 @@ export class CalendarComponent implements OnInit {
     events: any[] = [];
 
     subTopics: any;
+    subtopic: Subtopic;
 
-    constructor(private calendarService: CalendarService) { }
+    constructor(private calendarService: CalendarService, private statusService: CalendarStatusService) { }
 
     ngOnInit() {
 
@@ -45,51 +50,14 @@ export class CalendarComponent implements OnInit {
         }
         // this.fc.weekends = false;
 
-        // this.fc.defaultView = "month";
-        // this.fc.timezone = "local";
-        
-        // this.events = [
-        //     {
-        //         "title": "Project 3 showcase",
-        //         "start": 1518573600000
-        //     },
-        //     {
-        //         "title": "Docker",
-        //         "start": "2018-02-08",
-        //         "end": "2018-02-12"
-        //     },
-        //     {
-        //         "title": "Microservices",
-        //         "start": "2018-02-05",
-        //         "end": "2018-02-08"
-        //     },
-        //     {
-        //         "title": "QC",
-        //         "start": "2018-02-05T14:00:00",
-        //         "end": "2018-02-05T15:00:00"
-        //     },
+        this.fc.defaultView = "month";
 
-        //     {
-        //         "title": "QC",
-        //         "start": "2018-02-12T14:00:00",
-        //         "end": "2018-02-12T15:00:00"
-        //     },
-        //     {
-        //         "title": "Angular Review",
-        //         "start": "2018-01-29",
-        //         "end": "2018-01-29"
-        //     }
-        // ];
+        this.subtopic = new Subtopic("My Custom Event", "2018-02-19", 1);
+        this.events = new Array<any>();
+        this.events.push(this.subtopic);
 
-        // this.fc.events = this.events;
-        // console.log(this.fc.events);
-        // this.fc.events.map((obj: any) => {
-        //     obj.color = "orange";
-        //     // obj.title = "testin";
-        // });
-
-        //this.fc.defaultDate = "2017-2-1"
-
+        this.fc.events = this.events;
+        console.log(this.fc.events);
 
     }
 
@@ -97,22 +65,20 @@ export class CalendarComponent implements OnInit {
         //fc.prev();
         fc.next();
     }
+
     handleEventClick($event) {
-        console.log($event.calEvent);
-        $event.calEvent.color = "orange";
-        //e.jsEvent = Browser click event
-        console.log($event.calEvent);
-        this.fc.updateEvent($event.calEvent);
+        var clickedTopic = $event.calEvent;
+        console.log(clickedTopic.title);
+        clickedTopic.status++;
+        if(clickedTopic.status > 4) {
+            clickedTopic.status = 1;
+        }
+        let color = this.statusService.getStatusColor(clickedTopic.status);
+        clickedTopic.color = color;
+        this.fc.updateEvent(clickedTopic);
+        
     }
-    // handleEventDrop(calendar)
-    // {
-    //     calendar.event.color = "orange";
-    //     console.log(calendar.delta.asDays());
-    //     console.log(calendar.event.start.toString())
-    //     console.log(calendar.event.start.format());
-    //     //$event.calEvent.color = "orange";
-    //     this.fc.updateEvent(calendar.event);
-    // }
+    
     handleEventDrop(calander) {
         console.log(calander.event.start.format());
         const date = new Date(calander.event.start.format());

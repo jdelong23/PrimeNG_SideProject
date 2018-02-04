@@ -18,6 +18,7 @@ export class CalendarService {
 
   url = `http://localhost:9001/api/v1/calendar/subtopicspagination?batchId=22506&pageSize=34&pageNumber=0`;
   updateDateURL = `http://localhost:9001/api/v1/calendar/dateupdate`;
+  updateStatusURL = 'http://localhost:9001/api/v1/calendar/statusupdate';
 
 
   constructor(private httpPost: HttpClient, private httpGet: Http) { }
@@ -41,6 +42,11 @@ export class CalendarService {
     return this.httpPost.post<any>(this.updateDateURL, body, httpOptions);
   }
 
+  updateStatus(batchId, subtopic: Subtopic) : Observable<any> {
+    const body = `batchId=${batchId}&status=${subtopic.status}&subtopicId=${subtopic.subtopicId}`;
+    return this.httpPost.post<any>(this.updateStatusURL, body, httpOptions);
+  }
+
   /* accepts a single subtopic entity in json format to map into a
      Subtopic object */
   _mapSubtopic(subtopicJson: any): Subtopic {
@@ -48,7 +54,7 @@ export class CalendarService {
     subtopic.subtopicId = subtopicJson.subtopicId;
     subtopic.title = subtopicJson.subtopicName.name;
     subtopic.start = new Date(subtopicJson.subtopicDate);
-    subtopic.status = subtopicJson.status.id;
+    subtopic.status = subtopicJson.status.name;
 
     return subtopic;
   }

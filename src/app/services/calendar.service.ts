@@ -10,7 +10,7 @@ import { Subtopic } from '../models/subtopic.model';
 
 //observe required to see all headers and body
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
 };
 
 @Injectable()
@@ -27,6 +27,8 @@ export class CalendarService {
     return this.httpGet
       .get(this.url)
       .map((response: Response) => {
+        console.log(response);
+        console.log(response.json());
         let subtopicArray = new Array<Subtopic>();
         for (let subtopicJson of response.json()) {
           subtopicArray.push(this._mapSubtopic(subtopicJson));

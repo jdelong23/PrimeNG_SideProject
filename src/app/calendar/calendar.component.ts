@@ -28,6 +28,8 @@ export class CalendarComponent implements OnInit {
 
                 for (let subtopic of this.subTopics) {
                     console.log(subtopic);
+                    let color = this.statusService.getStatusColor(subtopic.status);
+                    subtopic.color = color;
                     this.events.push(subtopic);
                 }
                 this.fc.events = this.events;

@@ -49,7 +49,7 @@ export class CalendarService {
     let subtopic = new Subtopic();
     subtopic.subtopicId = subtopicJson.subtopicId;
     subtopic.title = subtopicJson.subtopicName.name;
-    subtopic.start = subtopicJson.subtopicDate;
+    subtopic.start = new Date(subtopicJson.subtopicDate);
     subtopic.status = subtopicJson.status.id;
 
     return subtopic;

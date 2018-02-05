@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subtopic } from '../models/subtopic.model';
 
 enum Status {
   PENDING = "Pending",
@@ -27,18 +28,44 @@ export class CalendarStatusService {
     }
   }
 
-  public getNextStatus(status: string): string {
-    switch (status) {
+  public getNextStatus(subtopic: Subtopic): string {
+    var today = new Date().setHours(0, 0, 0, 0);
+    var eventDay = subtopic.start.getTime();
+    var later = today < eventDay;
+
+    console.log(today);
+    console.log(eventDay);
+
+    switch (subtopic.status) {
       case (Status.PENDING):
-        return Status.COMPLETED;
+        subtopic.status = Status.COMPLETED;
+        break;
       case (Status.COMPLETED):
-        return Status.CANCELED;
+        subtopic.status = Status.CANCELED;
+        break;
       case (Status.CANCELED):
-        return Status.MISSED;
+        subtopic.status = Status.MISSED;
+        break;
       case (Status.MISSED):
-        return Status.PENDING;
+        subtopic.status = later ? Status.PENDING : Status.COMPLETED;
+        break;
       default:
-        return Status.COMPLETED;
+        subtopic.status = subtopic.status;
     }
+    console.log(subtopic.status);
+
+    return subtopic.status;
+  }
+
+  public getMovedStatus(subtopic: Subtopic): string {
+    var today = new Date().setHours(0, 0, 0, 0);
+    var eventDay = subtopic.start.getTime();
+    var later = today < eventDay;
+
+    if(subtopic.status == Status.PENDING || subtopic.status == Status.MISSED) {
+      subtopic.status = later ? Status.PENDING : Status.MISSED;
+    }
+
+    return subtopic.status;
   }
 }

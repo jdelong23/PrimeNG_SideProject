@@ -52,30 +52,36 @@ export class CalendarComponent implements OnInit {
 
     handleEventClick($event) {
         var clickedTopic = $event.calEvent;
-        clickedTopic.status = this.statusService.getNextStatus(clickedTopic.status);
+        let subtopic = this.mapSubtopic(clickedTopic);
+
+        clickedTopic.status = this.statusService.getNextStatus(subtopic);
         clickedTopic.color = this.statusService.getStatusColor(clickedTopic.status);
         
-        let subtopic = this._mapSubtopic(clickedTopic);
-        console.log(subtopic);
         this.calendarService.updateStatus(22506, subtopic).subscribe();
         this.fc.updateEvent(clickedTopic);
     }
 
     handleEventDrop(calendar) {
-        //console.log(calendar.event.start.format());
-        const date = new Date(calendar.event.start.format());
-        const milliDate = date.getTime();
+        var droppedTopic = calendar.event;
+        let subtopic = this.mapSubtopic(droppedTopic);
+        const milliDate = subtopic.start.getTime();
 
-       
-        console.log(milliDate);
-        console.log(calendar.event.subtopicId);
+        droppedTopic.status = this.statusService.getMovedStatus(subtopic);
+        droppedTopic.color = this.statusService.getStatusColor(droppedTopic.status);
 
-        this.calendarService.updateDate(22506, calendar.event.subtopicId, milliDate).subscribe();
+        //update date and status synchronously
+        this.calendarService.updateDate(22506, droppedTopic.subtopicId, milliDate)
+        .subscribe(response => {
+            this.calendarService.updateStatus(22506, subtopic).subscribe();
+        });
+        
+        this.fc.updateEvent(droppedTopic);
     }
 
-    _mapSubtopic(subtopicEvent): Subtopic {
+    mapSubtopic(subtopicEvent): Subtopic {
         let subtopic = new Subtopic();
         subtopic = subtopicEvent;
+        subtopic.start = new Date(subtopicEvent.start.format());
         return subtopic;
     }
 }

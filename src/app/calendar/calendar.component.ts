@@ -50,7 +50,7 @@ export class CalendarComponent implements OnInit {
         fc.next();
     }
 
-    handleEventClick($event) {
+    handleEventClick($event) {\
         var clickedTopic = $event.calEvent;
         let subtopic = this.mapSubtopic(clickedTopic);
 

@@ -27,7 +27,7 @@ export class CalendarComponent implements OnInit {
                 this.subTopics = service;
 
                 for (let subtopic of this.subTopics) {
-                    console.log(subtopic);
+                    //console.log(subtopic);
                     let color = this.statusService.getStatusColor(subtopic.status);
                     subtopic.color = color;
                     this.events.push(subtopic);
@@ -46,15 +46,24 @@ export class CalendarComponent implements OnInit {
         this.fc.navLinks = true;
         //this.fc.weekNumbers = true;
         //this.fc.hiddenDays = [2,4];
-        //this.fc.weekends = false;
+        this.fc.weekends = true;
         this.fc.eventLimit = 2;
         this.fc.nowIndicator = true;
         //this.fc.eventOverlap = false;
+        //this.fc.defaultDate = Date.now();
+        //this.fc.defaultDate = "2-16-2018";
+        this.fc.businessHours = {
+            // days of week. an array of zero-based day of week integers (0=Sunday)
+            dow: [ 1, 2, 3, 4, 5 ], // Monday - Friday
+        
+            start: '9:00', // a start time (9am in this example)
+            end: '17:00', // an end time (5pm in this example)
+        }
+        
     }
 
     back(fc) {
-        //fc.prev();
-        fc.next();
+        fc.prev();
     }
 
     handleEventClick($event) {
@@ -63,7 +72,7 @@ export class CalendarComponent implements OnInit {
         clickedTopic.color = this.statusService.getStatusColor(clickedTopic.status);
         
         let subtopic = this._mapSubtopic(clickedTopic);
-        console.log(subtopic);
+        //console.log(subtopic);
         this.calendarService.updateStatus(22506, subtopic).subscribe();
         this.fc.updateEvent(clickedTopic);
     }
@@ -72,10 +81,6 @@ export class CalendarComponent implements OnInit {
         //console.log(calendar.event.start.format());
         const date = new Date(calendar.event.start.format());
         const milliDate = date.getTime();
-
-       
-        console.log(milliDate);
-        console.log(calendar.event.subtopicId);
 
         this.calendarService.updateDate(22506, calendar.event.subtopicId, milliDate).subscribe();
     }

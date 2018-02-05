@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ScheduleModule, Schedule, } from 'primeng/schedule';
+import {CalendarModule, Calendar} from 'primeng/calendar';
 
 import { Subtopic } from '../models/subtopic.model';
 import { CalendarStatusService } from '../services/calendar-status.service';
 import { CalendarService } from '../services/calendar.service';
-import { error } from 'selenium-webdriver';
+
 
 @Component({
     selector: 'app-calendar',
@@ -13,23 +14,32 @@ import { error } from 'selenium-webdriver';
 })
 export class CalendarComponent implements OnInit {
     @ViewChild('fc') fc: Schedule;
+
+
     events: any[] = [];
 
     subTopics: any;
     subtopic: Subtopic;
 
+
+    @ViewChild('datePicker') datePicker: Calendar; 
+    gotoDateValue: Date;
+
     constructor(private calendarService: CalendarService, private statusService: CalendarStatusService) { }
 
     ngOnInit() {
-
+        console.log(this.datePicker);
         this.calendarService.getPaginatedSubtopics().subscribe(
             service => {
                 this.subTopics = service;
 
                 for (let subtopic of this.subTopics) {
-                    //console.log(subtopic);
+                   
                     let color = this.statusService.getStatusColor(subtopic.status);
                     subtopic.color = color;
+
+                    subtopic.className = ["test"];
+                    
                     this.events.push(subtopic);
                 }
                 this.fc.events = this.events;
@@ -44,13 +54,13 @@ export class CalendarComponent implements OnInit {
 
         //this.fc.defaultView = "month";
         this.fc.navLinks = true;
-        //this.fc.weekNumbers = true;
+        this.fc.weekNumbers = true;
         //this.fc.hiddenDays = [2,4];
         this.fc.weekends = true;
         this.fc.eventLimit = 2;
         this.fc.nowIndicator = true;
         //this.fc.eventOverlap = false;
-        //this.fc.defaultDate = Date.now();
+        this.fc.defaultDate = Date.now();
         //this.fc.defaultDate = "2-16-2018";
         this.fc.businessHours = {
             // days of week. an array of zero-based day of week integers (0=Sunday)
@@ -59,11 +69,23 @@ export class CalendarComponent implements OnInit {
             start: '9:00', // a start time (9am in this example)
             end: '17:00', // an end time (5pm in this example)
         }
+        console.log(this.fc);
+        
         
     }
+    
+    addThreeMonths(fc) {
+        let m = fc.getDate();
+        m.stripTime();
+        this.fc.defaultDate = m;
+        console.log(this.fc.defaultDate.toString());
+        //fc.incrementDate({'months' : 3});
 
-    back(fc) {
-        fc.prev();
+    }
+
+    minusThreeMonths(fc) {
+        fc.incrementDate({'months' : -3});
+
     }
 
     handleEventClick($event) {
@@ -85,11 +107,24 @@ export class CalendarComponent implements OnInit {
         this.calendarService.updateDate(22506, calendar.event.subtopicId, milliDate).subscribe();
     }
 
+    handleDayClick($event)
+    {
+        console.log($event.view);
+    }
+
     _mapSubtopic(subtopicEvent): Subtopic {
         let subtopic = new Subtopic();
         subtopic = subtopicEvent;
         return subtopic;
     }
+
+    /*Date Picker Events*/
+    jumpToDate(date)
+    {
+        this.fc.gotoDate(date);
+        this.fc.changeView("agendaDay");
+    }
+
 }
 
 

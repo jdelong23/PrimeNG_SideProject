@@ -11,16 +11,20 @@ import { AppComponent } from './app.component';
 import { BurndownComponent } from './burndown/burndown.component';
 import {ChartModule, GrowlModule} from 'primeng/primeng';
 import {ScheduleModule} from 'primeng/schedule';
+import {CalendarModule} from 'primeng/calendar';
 import { CalendarComponent } from './calendar/calendar.component'
 import { CalendarStatusService } from './services/calendar-status.service';
 import { CalendarService } from './services/calendar.service';
 import { HttpModule } from '@angular/http';
+import { DraggableComponent } from './draggable/draggable.component';
+import { DragDropModule } from 'primeng/dragdrop';
 
 @NgModule({
     declarations: [
         AppComponent,
         BurndownComponent,
         CalendarComponent,
+        DraggableComponent,
     ],
     imports: [
         BrowserModule,
@@ -34,7 +38,9 @@ import { HttpModule } from '@angular/http';
         ChartModule,
         GrowlModule,
         ScheduleModule,
-        HttpModule
+        CalendarModule,
+        HttpModule,
+        DragDropModule
     ],
     providers: [
         CalendarService, 

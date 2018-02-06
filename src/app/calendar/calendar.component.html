@@ -1,6 +1,12 @@
+<p-calendar #datePicker [(ngModel)]="gotoDateValue" [monthNavigator]="true" [yearNavigator]="true" yearRange="1980:2030" [showIcon]="true" (onSelect)="jumpToDate(gotoDateValue)"></p-calendar>
+<app-draggable></app-draggable>
 
 <div style="width:800px;height:800px;margin:0 auto 0;">
-<p-schedule #fc [events]="events" [editable]="true" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)"></p-schedule>
+    <p-schedule #fc [events]="events" pDroppable="gg" [droppable]="true" [editable]="true" (drop)="externalDropEvent($event)" 
+        (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)" (onDayClick)="handleDayClick($event)">
+    </p-schedule>
 
-<button type="button" pButton (click)="back(fc)"></button>
+    <button type="button" pButton (click)="minusThreeMonths(fc)">- 3 Months</button>
+    <button type="button" pButton (click)="addThreeMonths(fc)">+ 3 Months</button>
 </div>
+

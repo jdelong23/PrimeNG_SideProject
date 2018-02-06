@@ -28,8 +28,6 @@ export class CalendarService {
     return this.httpGet
       .get(this.url)
       .map((response: Response) => {
-        console.log(response);
-        console.log(response.json());
         let subtopicArray = new Array<Subtopic>();
         for (let subtopicJson of response.json()) {
           subtopicArray.push(this._mapSubtopic(subtopicJson));

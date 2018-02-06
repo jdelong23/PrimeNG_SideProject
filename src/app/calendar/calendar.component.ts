@@ -1,11 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ScheduleModule, Schedule, } from 'primeng/schedule';
 import {CalendarModule, Calendar} from 'primeng/calendar';
+import {DragDropModule} from 'primeng/dragdrop';
 
 import { Subtopic } from '../models/subtopic.model';
 import { CalendarStatusService } from '../services/calendar-status.service';
 import { CalendarService } from '../services/calendar.service';
 
+//import * as $ from 'jquery';
+//import $ui from 'jquery-ui';
+declare var $: any;
 
 @Component({
     selector: 'app-calendar',
@@ -28,6 +32,16 @@ export class CalendarComponent implements OnInit {
     constructor(private calendarService: CalendarService, private statusService: CalendarStatusService) { }
 
     ngOnInit() {
+        
+
+        $('.fc-event').draggable( 
+        {   
+            zIndex: 999,
+            revert: true,      // immediately snap back to original position
+            revertDuration: 0  //
+        });
+       
+
         console.log(this.datePicker);
         this.calendarService.getPaginatedSubtopics().subscribe(
             service => {
@@ -79,13 +93,13 @@ export class CalendarComponent implements OnInit {
             start: '9:00', // a start time (9am in this example)
             end: '17:00', // an end time (5pm in this example)
         }
+        this.fc.droppable = true;
         
-        console.log(this.fc);
         this.fc.options = 
         {
             longPressDelay: 100
         }
-        
+        console.log(this.fc);
     }
     
     addThreeMonths(fc) {
@@ -103,6 +117,7 @@ export class CalendarComponent implements OnInit {
     }
 
     handleEventClick($event) {
+        console.log($event);
         var clickedTopic = $event.calEvent;
         clickedTopic.status = this.statusService.getNextStatus(clickedTopic.status);
         clickedTopic.color = this.statusService.getStatusColor(clickedTopic.status);
@@ -126,6 +141,20 @@ export class CalendarComponent implements OnInit {
         console.log($event.view);
     }
 
+    handleDrop($event){
+        
+        console.log("you made it to handle drop!");
+        console.log($event.ui.helper.html());
+        console.log($event.date.format());
+
+        let e = {title: $event.ui.helper.html(), start:$event.date.format()};
+        console.log(e);
+        //this.events.push(e);
+        this.fc.events.push(e);
+        console.log(this.fc.events);
+        
+        
+    }
     _mapSubtopic(subtopicEvent): Subtopic {
         let subtopic = new Subtopic();
         subtopic = subtopicEvent;

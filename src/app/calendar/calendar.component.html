@@ -2,17 +2,27 @@
     <!-- <button type="button" pButton (click)="minusThreeMonths(fc)">- 3 Months</button>
     <button type="button" pButton (click)="addThreeMonths(fc)">+ 3 Months</button> -->
 
-
+   
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-8 m-2">
-            <p-schedule #fc [events]="events" [editable]="true" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)" (onDayClick)="handleDayClick($event)"></p-schedule>
+            <p-schedule [droppable]="true" #fc [events]="events" [editable]="true" (onEventClick)="handleEventClick(event)" (onEventDrop)="handleEventDrop($event)" (onDayClick)="handleDayClick($event)" (onDrop)="handleDrop($event)"></p-schedule>
 
         </div>
         <div class="col-md-2 m-2 ">
             <p-calendar #datePicker [(ngModel)]="gotoDateValue" [monthNavigator]="true" [yearNavigator]="true" yearRange="1980:2030" [showIcon]="true" (onSelect)="jumpToDate(gotoDateValue)"></p-calendar>
+            
+        <div class="card p-3 m-2">
+            <div class='fc-event m-2' style="width:115px; cursor:pointer;">My Event 1</div>
+            <div class='fc-event m-2' style="width:115px; cursor:pointer;">My Event 2</div>
+            <div class='fc-event m-2' style="width:115px; cursor:pointer;">My Event 3</div>
+            <div class='fc-event m-2' style="width:115px; cursor:pointer;">My Event 4</div>
+            <div class='fc-event m-2' style="width:115px; cursor:pointer;">My Event 5</div>
         </div>
     </div>
     
+
+    
+
 </div>
 

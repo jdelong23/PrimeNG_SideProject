@@ -27,9 +27,10 @@
       ],
       "scripts": [
         "../node_modules/chart.js/dist/Chart.js",
-        "../node_modules/jquery/dist/jquery.min.js",
+        
         "../node_modules/moment/min/moment.min.js",
         "../node_modules/fullcalendar/dist/fullcalendar.js"
+        
         
         
 

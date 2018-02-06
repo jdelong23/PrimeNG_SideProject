@@ -16,6 +16,7 @@ import { CalendarComponent } from './calendar/calendar.component'
 import { CalendarStatusService } from './services/calendar-status.service';
 import { CalendarService } from './services/calendar.service';
 import { HttpModule } from '@angular/http';
+import { DragDropModule} from 'primeng/dragdrop';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { HttpModule } from '@angular/http';
         GrowlModule,
         ScheduleModule,
         CalendarModule,
-        HttpModule
+        HttpModule,
+        DragDropModule
     ],
     providers: [
         CalendarService, 

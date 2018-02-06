@@ -38,7 +38,7 @@ export class CalendarComponent implements OnInit {
                     let color = this.statusService.getStatusColor(subtopic.status);
                     subtopic.color = color;
 
-                    subtopic.className = ["test"];
+                    //subtopic.className = ["test"];
                     
                     this.events.push(subtopic);
                 }
@@ -52,13 +52,23 @@ export class CalendarComponent implements OnInit {
             right: 'today prev,next'
         }
 
-        //this.fc.defaultView = "month";
+        
+        if(window.innerWidth < 1000)
+        {
+            this.fc.defaultView = "listMonth";
+            this.fc.header = {
+                left: 'agendaDay,basicWeek,listMonth',
+                center: 'title',
+                right: 'today prev,next'
+            }
+        }
+        
         this.fc.navLinks = true;
-        this.fc.weekNumbers = true;
+        this.fc.weekNumbers = false;
         //this.fc.hiddenDays = [2,4];
         this.fc.weekends = true;
         this.fc.eventLimit = 2;
-        this.fc.nowIndicator = true;
+        this.fc.nowIndicator = false;
         //this.fc.eventOverlap = false;
         this.fc.defaultDate = Date.now();
         //this.fc.defaultDate = "2-16-2018";
@@ -69,8 +79,12 @@ export class CalendarComponent implements OnInit {
             start: '9:00', // a start time (9am in this example)
             end: '17:00', // an end time (5pm in this example)
         }
-        console.log(this.fc);
         
+        console.log(this.fc);
+        this.fc.options = 
+        {
+            longPressDelay: 100
+        }
         
     }
     

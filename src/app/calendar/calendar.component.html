@@ -1,10 +1,18 @@
-<p-calendar #datePicker [(ngModel)]="gotoDateValue" [monthNavigator]="true" [yearNavigator]="true" yearRange="1980:2030" [showIcon]="true" (onSelect)="jumpToDate(gotoDateValue)"></p-calendar>
+
+    <!-- <button type="button" pButton (click)="minusThreeMonths(fc)">- 3 Months</button>
+    <button type="button" pButton (click)="addThreeMonths(fc)">+ 3 Months</button> -->
 
 
-<div style="width:800px;height:800px;margin:0 auto 0;">
-    <p-schedule #fc [events]="events" [editable]="true" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)" (onDayClick)="handleDayClick($event)"></p-schedule>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 m-2">
+            <p-schedule #fc [events]="events" [editable]="true" (onEventClick)="handleEventClick($event)" (onEventDrop)="handleEventDrop($event)" (onDayClick)="handleDayClick($event)"></p-schedule>
 
-    <button type="button" pButton (click)="minusThreeMonths(fc)">- 3 Months</button>
-    <button type="button" pButton (click)="addThreeMonths(fc)">+ 3 Months</button>
+        </div>
+        <div class="col-md-2 m-2 ">
+            <p-calendar #datePicker [(ngModel)]="gotoDateValue" [monthNavigator]="true" [yearNavigator]="true" yearRange="1980:2030" [showIcon]="true" (onSelect)="jumpToDate(gotoDateValue)"></p-calendar>
+        </div>
+    </div>
+    
 </div>
 

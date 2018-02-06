@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ScheduleModule, Schedule, } from 'primeng/schedule';
-import { CalendarModule, Calendar } from 'primeng/calendar';
+import {CalendarModule, Calendar} from 'primeng/calendar';
 
 import { Subtopic } from '../models/subtopic.model';
 import { CalendarStatusService } from '../services/calendar-status.service';
 import { CalendarService } from '../services/calendar.service';
 
+declare var $: any;
 
 @Component({
     selector: 'app-calendar',
@@ -37,8 +38,6 @@ export class CalendarComponent implements OnInit {
                    
                     let color = this.statusService.getStatusColor(subtopic.status);
                     subtopic.color = color;
-
-                    subtopic.className = ["test"];
                     
                     this.events.push(subtopic);
                 }
@@ -52,13 +51,23 @@ export class CalendarComponent implements OnInit {
             right: 'today prev,next'
         }
 
-        //this.fc.defaultView = "month";
+        /*
+        if(window.innerWidth < 1000)
+        {
+            this.fc.defaultView = "listMonth";
+            this.fc.header = {
+                left: 'agendaDay,basicWeek,listMonth',
+                center: 'title',
+                right: 'today prev,next'
+            }
+        }*/
+        
         this.fc.navLinks = true;
-        this.fc.weekNumbers = true;
+        this.fc.weekNumbers = false;
         //this.fc.hiddenDays = [2,4];
         this.fc.weekends = true;
-        this.fc.eventLimit = 2;
-        this.fc.nowIndicator = true;
+        this.fc.eventLimit = 3;
+        this.fc.nowIndicator = false;
         //this.fc.eventOverlap = false;
         this.fc.defaultDate = Date.now();
         //this.fc.defaultDate = "2-16-2018";
@@ -69,27 +78,21 @@ export class CalendarComponent implements OnInit {
             start: '9:00', // a start time (9am in this example)
             end: '17:00', // an end time (5pm in this example)
         }
+        this.fc.droppable = true;
+        
+        this.fc.options = 
+        {
+            longPressDelay: 100
+        }
         console.log(this.fc);
-        
-        
-    }
-    
-    addThreeMonths(fc) {
-        let m = fc.getDate();
-        m.stripTime();
-        this.fc.defaultDate = m;
-        console.log(this.fc.defaultDate.toString());
-        //fc.incrementDate({'months' : 3});
-
     }
 
     minusThreeMonths(fc) {
         fc.incrementDate({'months' : -3});
-
     }
 
-    handleEventClick($event) {
-        var clickedTopic = $event.calEvent;
+    handleEventClick(event) {
+        var clickedTopic = event.calEvent;
         let subtopic = this.mapSubtopic(clickedTopic);
 
         clickedTopic.status = this.statusService.getNextStatus(subtopic);
@@ -117,14 +120,18 @@ export class CalendarComponent implements OnInit {
         this.fc.updateEvent(droppedTopic);
     }
 
-    externalDropEvent(event) {
-        console.log(event);
-        console.log(event.date);
+    handleDrop(event) {
+        console.log(event.ui.helper[0].innerHTML);
+    }
+
+    handleEventReceive(event) {
+        console.log('HELLO');
     }
 
     mapSubtopic(subtopicEvent): Subtopic {
         let subtopic = new Subtopic();
         subtopic = subtopicEvent;
+        //convert from moment to date
         subtopic.start = new Date(subtopicEvent.start.format());
         return subtopic;
     }

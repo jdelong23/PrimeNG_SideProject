@@ -33,9 +33,6 @@ export class CalendarStatusService {
     var eventDay = subtopic.start.getTime();
     var later = today < eventDay;
 
-    console.log(today);
-    console.log(eventDay);
-
     switch (subtopic.status) {
       case (Status.PENDING):
         subtopic.status = Status.COMPLETED;
@@ -52,7 +49,6 @@ export class CalendarStatusService {
       default:
         subtopic.status = subtopic.status;
     }
-    console.log(subtopic.status);
 
     return subtopic.status;
   }

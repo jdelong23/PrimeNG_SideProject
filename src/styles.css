@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+ .ui-state-highlight{
+    border-color: orange;
+    background: orange;
+    color: white; 
+    opacity: 0.8;
+  }
+
+  .fc-title
+  {
+    color: white; 
+  }
+
+  .fc-time
+  {
+    color: white; 
+  }
+/*
+  .ui-button{
+    background: orange;
+} */

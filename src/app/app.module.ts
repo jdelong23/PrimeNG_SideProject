@@ -17,14 +17,13 @@ import { CalendarStatusService } from './services/calendar-status.service';
 import { CalendarService } from './services/calendar.service';
 import { HttpModule } from '@angular/http';
 import { DraggableComponent } from './draggable/draggable.component';
-import { DragDropModule } from 'primeng/dragdrop';
 
 @NgModule({
     declarations: [
         AppComponent,
         BurndownComponent,
         CalendarComponent,
-        DraggableComponent,
+        DraggableComponent
     ],
     imports: [
         BrowserModule,
@@ -39,8 +38,7 @@ import { DragDropModule } from 'primeng/dragdrop';
         GrowlModule,
         ScheduleModule,
         CalendarModule,
-        HttpModule,
-        DragDropModule
+        HttpModule
     ],
     providers: [
         CalendarService, 
